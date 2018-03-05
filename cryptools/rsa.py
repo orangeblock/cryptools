@@ -1,4 +1,3 @@
-import itertools
 import cryptomath as m
 
 from Crypto.PublicKey import RSA

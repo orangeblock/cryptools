@@ -93,7 +93,7 @@ def _rot_key_candidate(ct, keysize, alphabet=string.ascii_lowercase):
     blocks = []
     for i in range(keysize):
         group = ct[i::keysize]
-        ppts = [(rotN(group, i+1), alphabet[ (len(alphabet)-i-1)%len(alphabet) ]) 
+        ppts = [(rotN(group, i+1, alphabet), alphabet[ (len(alphabet)-i-1)%len(alphabet) ]) 
                 for i in range(len(alphabet))]
         # list of -> ((rotated text, key char), χ²)
         results = map(lambda x: (x, chi2_printable(x[0])), ppts)
