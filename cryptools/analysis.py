@@ -148,3 +148,49 @@ def vigenere_decrypt(ct, key, alphabet=string.ascii_lowercase):
             pt += alphabet[(alphabet.index(c) + rot) % len(alphabet)]
             ki = (ki + 1) % len(key)
     return pt
+
+def _sort_counter_dict(d, reverse):
+    ks = sorted(d, key=lambda x: d[x], reverse=reverse)
+    return [(k, d[k]) for k in ks]
+
+def count_ngrams(ct, n):
+    """Counts ngrams in ciphertext and returns a dictionary of ngram -> count."""
+    if n < 1:
+        raise ValueError("n must be positive")
+    ngrams = defaultdict(int)
+    for i in range(0, len(ct)-(n-1)):
+        ngrams[ct[i:i+n]] += 1
+    return dict(ngrams)
+
+def sorted_ngrams(ct, n, reverse=True):
+    """Returns a list of tuples (ngram, count) sorted by count.
+
+    Default sort is descending. Pass reverse=False to sort in ascending order.
+    """
+    ngrams = count_ngrams(ct, n)
+    return _sort_counter_dict(ngrams, reverse)
+
+def count_doubles(ct):
+    """Counts doubled letters in ciphertext and returns a dictionary of letters -> count.
+
+    Each letter can only exist in one double, e.g. 'abccc' will return {'cc': 1}.
+    """
+    doubles = defaultdict(int)
+    i = 0
+    while True:
+        if i >= len(ct)-1:
+            break
+        elif ct[i] == ct[i+1]:
+            doubles['%s%s' % (ct[i], ct[i])] += 1
+            i += 2
+        else:
+            i += 1
+    return dict(doubles)
+
+def sorted_doubles(ct, reverse=True):
+    """Returns a list of tuples (doubles, count) sorted by count.
+
+    Default sort is descending. Pass reverse=False to sort in ascending order.
+    """
+    doubles = count_doubles(ct)
+    return _sort_counter_dict(doubles, reverse)
