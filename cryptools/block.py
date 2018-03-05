@@ -141,7 +141,7 @@ def cbc_padding_oracle_decrypt(ct, oracle, block_size=16):
             prefix_len = block_size - len(known) - 1
             prefix = '\x00'*prefix_len
             pad_len = len(known) + 1
-            pad_partial = sxorm(prevb[prefix_len+1:], known, chr(pad_len)*len(known))
+            pad_partial = sxor(prevb[prefix_len+1:], known, chr(pad_len)*len(known))
             while True:
                 hits = 0
                 for i in range(256):

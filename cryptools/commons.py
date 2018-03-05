@@ -4,13 +4,12 @@ import struct
 
 LONG_LONG_LIMIT = 18446744073709551615
 
-def sxor(x,y):
-    """Per byte string xor"""
+def _sxor(x,y):
     return ''.join(chr(ord(xi) ^ ord(yi)) for xi,yi in zip(x,y))
 
-def sxorm(*xs):
-    """sxor for multiple strings"""
-    return ''.join(reduce(sxor, tup) for tup in zip(*xs))
+def sxor(*xs):
+    """Per byte string xor"""
+    return ''.join(reduce(_sxor, tup) for tup in zip(*xs))
 
 def d2s(d):
     """Decimal to string"""
